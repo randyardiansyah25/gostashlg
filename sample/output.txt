@@ -1,5 +1,0 @@
-User Information:
-Name: John Doe
-Email: john@example.com
-City: New York
-State: NY

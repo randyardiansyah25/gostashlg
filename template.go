@@ -1,7 +1,7 @@
 package gostashlg
 
 const (
-	LogTemplate = "{{.Timestamp}} [{{.Level}}] {{.Event}}, {{.Message}}, {{.Data}}"
+	LogTemplate = "{{.Event}}, {{.Message}}, {{.Data}}"
 )
 
 type Template struct {
