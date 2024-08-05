@@ -10,11 +10,11 @@ func NewTimestamp() Timestamp {
 }
 
 type Fields struct {
-	Timestamp Timestamp `json:"@timestamp"`
-	Level     Level     `json:"level"`
-	Event     string    `json:"event"`
-	Message   string    `json:"log_message"`
-	Data      any       `json:"data,omitempty"`
+	Timestamp Timestamp   `json:"@timestamp"`
+	Level     Level       `json:"level"`
+	Event     string      `json:"event"`
+	Message   string      `json:"log_message"`
+	Data      interface{} `json:"data,omitempty"`
 }
 
 func NewFields() *Fields {
@@ -38,7 +38,7 @@ func (f *Fields) SetMessage(msg string) *Fields {
 	return f
 }
 
-func (f *Fields) SetData(data any) *Fields {
+func (f *Fields) SetData(data interface{}) *Fields {
 	f.Data = data
 	return f
 }
