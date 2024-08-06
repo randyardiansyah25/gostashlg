@@ -8,17 +8,23 @@ func NewTimestamp() string {
 }
 
 type Fields struct {
-	Timestamp string   `json:"@timestamp"`
-	Level     Level       `json:"level"`
-	Event     string      `json:"event"`
-	Message   string      `json:"log_message"`
-	Data      interface{} `json:"data,omitempty"`
+	IdentifierName string      `json:"service"`
+	Timestamp      string      `json:"service_timestamp"`
+	Level          Level       `json:"level"`
+	Event          string      `json:"event"`
+	Message        string      `json:"log_message"`
+	Data           interface{} `json:"data,omitempty"`
 }
 
 func NewFields() *Fields {
 	return &Fields{
 		Timestamp: NewTimestamp(),
 	}
+}
+
+func (f *Fields) SetIdentifierName(id string) *Fields {
+	f.IdentifierName = id
+	return f
 }
 
 func (f *Fields) SetLevel(level Level) *Fields {

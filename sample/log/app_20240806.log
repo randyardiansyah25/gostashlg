@@ -1,0 +1,39 @@
+2024-08-06 18:33:20	[LOG]:	RECV, FROM: 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:33:20	[INFO]:	RECV, FROM: 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:35:12	[LOG]:	RECV, FROM: 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:35:42	[LOG]:	RECV, FROM: 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:36:37	[LOG]:	RECV, FROM: 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:36:38	[INFO]:	PUT TO STASH, Success, Put log to stash scceeded!
+2024-08-06 18:36:56	[LOG]:	RECV, FROM: 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:40:54	[LOG]:	RECV, FROM: 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:43:51	[LOG]:	RECV, FROM: 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:44:49	[LOG]:	RECV, FROM:4 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:45:03	[LOG]:	RECV, FROM:4 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:54:51	[LOG]:	RECV, FROM:4 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:54:51	[INFO]:	PUT TO STASH, Success, Put log to stash scceeded!
+2024-08-06 18:56:44	[LOG]:	RECV, FROM:4 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 18:56:44	[INFO]:	PUT TO STASH, Success, Put log to stash scceeded!
+2024-08-06 19:03:58	[LOG]:	RECV, FROM:4 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 19:03:58	[INFO]:	PUT TO STASH, Success, Put log to stash scceeded!
+2024-08-06 19:04:34	[LOG]:	RECV, FROM:4 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 19:04:34	[INFO]:	PUT TO STASH, Success, Put log to stash scceeded!
+2024-08-06 19:07:56	[LOG]:	RECV, FROM:4 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 19:07:56	[INFO]:	PUT TO STASH, Success, Put log to stash scceeded!
+2024-08-06 19:19:41	[LOG]:	RECV, FROM:4 172.0.0.1:23994, Test, Nyoba log, Data:
+Ini contoh body, kalo http bisa aja concate dari header dan body
+2024-08-06 19:19:41	[INFO]:	PUT TO STASH, Success, Put log to stash scceeded!

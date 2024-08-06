@@ -10,4 +10,5 @@ const (
 	DEBUG Level = "DEBUG"
 	PRINT Level = "PRINT"
 	TRACE Level = "TRACE"
+	FAIL  Level = "FAIL"
 )

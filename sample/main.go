@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/randyardiansyah25/gostashlg"
 )
 
 func main() {
+	os.Setenv("logstash.host", "http://localhost:5044")
 	useDefine()
 	var input string
 	fmt.Scanln(&input)
@@ -25,17 +27,17 @@ func useDefine() {
 	}
 	log, _ := gostashlg.UseDefine(gostashlg.Define{
 		Template: gostashlg.NewTemplate().
-			Add(gostashlg.LOG, "{{.Data.Type}}, FROM: {{.Data.RemoteAddr}}, {{.Event}}, {{.Message}}, Data:\n{{.Data.Body}}"),
+			Add(gostashlg.LOG, "{{.Data.Type}}, FROM:4 {{.Data.RemoteAddr}}, {{.Event}}, {{.Message}}, Data:\n{{.Data.Body}}"),
 	})
 	field := gostashlg.NewFields().
+		SetIdentifierName("myapp").
 		SetLevel(gostashlg.LOG).
 		SetEvent("Test").
 		SetMessage("Nyoba log").
 		SetData(body).
 		Get()
 
-	log.Write(field,
-		false)
+	log.Write(field, true)
 }
 
 func useDefault() {
