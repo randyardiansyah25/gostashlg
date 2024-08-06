@@ -6,29 +6,40 @@ import (
 	"html/template"
 	"net/url"
 	"os"
+	"sync"
+	"time"
+
+	"github.com/randyardiansyah25/glg"
+	"golang.org/x/sync/singleflight"
 )
 
-type LogHandlerFunc func()
+const (
+	FORMAT_YMD = "20060102"
+)
+
+var (
+	sfGroup singleflight.Group
+	lSync   sync.Mutex
+)
 
 type Define struct {
 	Template *Template
-	Fun      LogHandlerFunc
 }
 
 type logItem struct {
-	Field     Fields
-	PushStash bool
+	Field       Fields
+	PushToStash bool
 }
 
 func UseDefault() (l LoggerEngine, e error) {
-	return use(NewTemplate(), nil)
+	return use(NewTemplate())
 }
 
 func UseDefine(d Define) (l LoggerEngine, e error) {
-	return use(d.Template, d.Fun)
+	return use(d.Template)
 }
 
-func use(tmpl *Template, fun LogHandlerFunc) (l LoggerEngine, er error) {
+func use(tmpl *Template) (l LoggerEngine, er error) {
 
 	defaultTemplate, er := template.New("logTemplate").Parse(LogTemplate)
 	if er != nil {
@@ -48,7 +59,6 @@ func use(tmpl *Template, fun LogHandlerFunc) (l LoggerEngine, er error) {
 	l = LoggerEngine{
 		defaultTemplate: defaultTemplate,
 		definedTemplate: defineTemplate,
-		fun:             fun,
 		itemChan:        make(chan logItem),
 		isUseStash:      false,
 	}
@@ -60,6 +70,7 @@ func use(tmpl *Template, fun LogHandlerFunc) (l LoggerEngine, er error) {
 		l.isUseStash = true
 	}
 
+	l.prepareLogFile()
 	go l.observe()
 	return
 }
@@ -67,15 +78,15 @@ func use(tmpl *Template, fun LogHandlerFunc) (l LoggerEngine, er error) {
 type LoggerEngine struct {
 	definedTemplate map[Level]*template.Template
 	defaultTemplate *template.Template
-	fun             LogHandlerFunc
 	itemChan        chan logItem
 	isUseStash      bool
+	LastSuffix      string
 }
 
-func (l *LoggerEngine) Put(f Fields, putToStash bool) {
+func (l *LoggerEngine) Write(f Fields, putToStash bool) {
 	l.itemChan <- logItem{
-		Field:     f,
-		PushStash: putToStash,
+		Field:       f,
+		PushToStash: putToStash,
 	}
 }
 
@@ -93,14 +104,45 @@ func (l *LoggerEngine) exec(item logItem) {
 		tmpl = l.defaultTemplate
 	}
 
+	currentSuffix := time.Now().Format(FORMAT_YMD)
+	if l.LastSuffix != currentSuffix {
+		l.prepareLogFile()
+	}
+
 	var out bytes.Buffer
 	_ = tmpl.Execute(&out, item.Field)
 
-	logStr := out.String()
+	message := out.String()
 
-	fmt.Println(logStr)
+	l.printLog(item.Field.Timestamp, item.Field.Level, message)
+	//fmt.Println(logStr)
+}
 
-	if l.fun != nil {
-		l.fun()
-	}
+func (l *LoggerEngine) prepareLogFile() {
+	sfGroup.Do("prepare_log_file", func() (interface{}, error) {
+		lSync.Lock()
+		l.LastSuffix = time.Now().Format(FORMAT_YMD)
+		logFl := glg.FileWriter(fmt.Sprintf("log/app_%s.log", l.LastSuffix), 0660)
+		errFl := glg.FileWriter(fmt.Sprintf("log/app_%s.err", l.LastSuffix), 0660)
+
+		glg.Get().
+			SetMode(glg.BOTH).
+			AddLevelWriter(glg.DEBG, logFl).
+			AddLevelWriter(glg.INFO, logFl).
+			AddLevelWriter(glg.LOG, logFl).
+			AddLevelWriter(glg.PRINT, logFl).
+			AddLevelWriter(glg.TRACE, logFl).
+			AddLevelWriter(glg.OK, logFl).
+			AddLevelWriter(glg.WARN, logFl).
+			AddLevelWriter(glg.ERR, errFl).
+			AddLevelWriter(glg.FAIL, errFl).
+			AddLevelWriter(glg.FATAL, errFl)
+
+		lSync.Unlock()
+		return nil, nil
+	})
+}
+
+func (l *LoggerEngine) printLog(timestamp string, level Level, msg string) {
+	_ = glg.CustomTimestampLog([]byte(timestamp), string(level), msg)
 }

@@ -34,7 +34,7 @@ func useDefine() {
 		SetData(body).
 		Get()
 
-	log.Put(field,
+	log.Write(field,
 		false)
 }
 
@@ -47,7 +47,7 @@ func useDefault() {
 		SetData("Detail:\nInformasi Detail").
 		Get()
 
-	log.Put(field,
+	log.Write(field,
 		false)
 
 	var input string

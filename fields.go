@@ -2,15 +2,13 @@ package gostashlg
 
 import "time"
 
-type Timestamp string
-
-func NewTimestamp() Timestamp {
+func NewTimestamp() string {
 	str := time.Now().Format("2006-01-02 15:04:05")
-	return Timestamp(str)
+	return str
 }
 
 type Fields struct {
-	Timestamp Timestamp   `json:"@timestamp"`
+	Timestamp string   `json:"@timestamp"`
 	Level     Level       `json:"level"`
 	Event     string      `json:"event"`
 	Message   string      `json:"log_message"`
