@@ -114,8 +114,8 @@ func (l *LoggerEngine) exec(item logItem) {
 
 	message := out.String()
 
-	l.printLog(item.Field.Timestamp, item.Field.Level, message)
-	//fmt.Println(logStr)
+	go l.printLog(item.Field.Timestamp, item.Field.Level, message)
+
 }
 
 func (l *LoggerEngine) prepareLogFile() {
