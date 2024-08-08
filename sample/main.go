@@ -29,9 +29,11 @@ func useDefine() {
 		Template: gostashlg.NewTemplate().
 			Add(gostashlg.LOG, "{{.Data.Type}}, FROM:4 {{.Data.RemoteAddr}}, {{.Event}}, {{.Message}}, Data:\n{{.Data.Body}}"),
 	})
+	
+	
 	field := gostashlg.NewFields().
 		SetIdentifierName("myapp").
-		SetLevel(gostashlg.LOG).
+		SetLevel(gostashlg.ERROR).
 		SetEvent("Test").
 		SetMessage("Nyoba log").
 		SetData(body).

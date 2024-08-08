@@ -107,9 +107,9 @@ func (l *LoggerEngine) observe() {
 
 func (l *LoggerEngine) exec(item logItem) {
 	message := l.composeOutput(item.Field)
-	go l.printLog(item.Field.Timestamp, item.Field.Level, message)
+	l.printLog(item.Field.Timestamp, item.Field.Level, message)
 	if l.isUseStash && item.PushToStash {
-		go l.put(item)
+		l.put(item)
 	}
 }
 
@@ -166,7 +166,7 @@ func (l *LoggerEngine) put(item logItem) {
 		field.Message = "Success"
 		field.Data = "Put log to stash scceeded!"
 	}
-	go l.printLog(field.Timestamp, field.Level, l.composeOutput(field))
+	l.printLog(field.Timestamp, field.Level, l.composeOutput(field))
 }
 
 func (l *LoggerEngine) composeOutput(f Fields) string {
