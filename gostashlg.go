@@ -24,7 +24,6 @@ var (
 	lSync   sync.Mutex
 )
 
-
 type logItem struct {
 	Field       Fields
 	PushToStash bool
@@ -90,6 +89,14 @@ type LoggerEngine struct {
 }
 
 func (l *LoggerEngine) Write(f Fields, putToStash bool) {
+	l.doWrite(f, true)
+}
+
+func (l *LoggerEngine) WriteOnly(f Fields, putToStash bool) {
+	l.doWrite(f, false)
+}
+
+func (l *LoggerEngine) doWrite(f Fields, putToStash bool) {
 	l.itemChan <- logItem{
 		Field:       f,
 		PushToStash: putToStash,
@@ -115,7 +122,6 @@ func (l *LoggerEngine) prepareLogFile() {
 		lSync.Lock()
 		l.LastSuffix = time.Now().Format(FORMAT_YMD)
 		logFl := glg.FileWriter(fmt.Sprintf("log/app_%s.log", l.LastSuffix), 0660)
-		errFl := glg.FileWriter(fmt.Sprintf("log/app_%s.err", l.LastSuffix), 0660)
 
 		glg.Get().
 			SetMode(glg.BOTH).
@@ -126,9 +132,9 @@ func (l *LoggerEngine) prepareLogFile() {
 			AddLevelWriter(glg.TRACE, logFl).
 			AddLevelWriter(glg.OK, logFl).
 			AddLevelWriter(glg.WARN, logFl).
-			AddLevelWriter(glg.ERR, errFl).
-			AddLevelWriter(glg.FAIL, errFl).
-			AddLevelWriter(glg.FATAL, errFl)
+			AddLevelWriter(glg.ERR, logFl).
+			AddLevelWriter(glg.FAIL, logFl).
+			AddLevelWriter(glg.FATAL, logFl)
 
 		lSync.Unlock()
 		return nil, nil

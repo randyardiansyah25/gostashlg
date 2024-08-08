@@ -31,7 +31,7 @@ func useDefine() {
 
 	field := gostashlg.NewFields().
 		SetIdentifierName("myapp").
-		SetLevel(gostashlg.ERROR).
+		SetLevel(gostashlg.LOG).
 		SetEvent("Test").
 		SetMessage("Nyoba log").
 		SetData(body).
