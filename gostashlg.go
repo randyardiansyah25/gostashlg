@@ -24,9 +24,6 @@ var (
 	lSync   sync.Mutex
 )
 
-type Define struct {
-	Template *Template
-}
 
 type logItem struct {
 	Field       Fields
@@ -37,8 +34,8 @@ func UseDefault() (l LoggerEngine, e error) {
 	return use(NewTemplate())
 }
 
-func UseDefine(d Define) (l LoggerEngine, e error) {
-	return use(d.Template)
+func UseDefine(template *Template) (l LoggerEngine, e error) {
+	return use(template)
 }
 
 func use(tmpl *Template) (l LoggerEngine, er error) {

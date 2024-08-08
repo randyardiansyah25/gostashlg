@@ -25,12 +25,10 @@ func useDefine() {
 		RemoteAddr: "172.0.0.1:23994",
 		Body:       "Ini contoh body, kalo http bisa aja concate dari header dan body",
 	}
-	log, _ := gostashlg.UseDefine(gostashlg.Define{
-		Template: gostashlg.NewTemplate().
-			Add(gostashlg.LOG, "{{.Data.Type}}, FROM:4 {{.Data.RemoteAddr}}, {{.Event}}, {{.Message}}, Data:\n{{.Data.Body}}"),
-	})
-	
-	
+	log, _ := gostashlg.UseDefine(gostashlg.NewTemplate().
+		Add(gostashlg.LOG, "{{.Data.Type}}, FROM:4 {{.Data.RemoteAddr}}, {{.Event}}, {{.Message}}, Data:\n{{.Data.Body}}"),
+	)
+
 	field := gostashlg.NewFields().
 		SetIdentifierName("myapp").
 		SetLevel(gostashlg.ERROR).
