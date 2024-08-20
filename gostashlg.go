@@ -3,10 +3,10 @@ package gostashlg
 import (
 	"bytes"
 	"fmt"
-	"html/template"
 	"net/url"
 	"os"
 	"sync"
+	"text/template"
 	"time"
 
 	"github.com/imroc/req/v3"
@@ -88,11 +88,11 @@ type LoggerEngine struct {
 	client          *req.Client
 }
 
-func (l *LoggerEngine) Write(f Fields, putToStash bool) {
+func (l *LoggerEngine) Write(f Fields) {
 	l.doWrite(f, true)
 }
 
-func (l *LoggerEngine) WriteOnly(f Fields, putToStash bool) {
+func (l *LoggerEngine) WriteOnly(f Fields) {
 	l.doWrite(f, false)
 }
 
