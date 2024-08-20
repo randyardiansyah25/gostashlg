@@ -148,28 +148,13 @@ func (l *LoggerEngine) printLog(timestamp string, level Level, msg string) {
 func (l *LoggerEngine) put(item logItem) {
 	c := l.client.Clone()
 	resp, er := c.R().SetBody(item.Field).Post(l.stashUrl)
-	isSuccess := false
-	field := NewFields().SetEvent("PUT TO STASH").Get()
 	if er != nil {
-		field.Level = ERROR
-		field.Message = "Unable to put log to stash"
-		field.Data = er
+		_ = glg.Warn("Unable to put log to stash,", er)
 	} else {
 		if !resp.IsSuccessState() {
-			field.Level = FAIL
-			field.Message = "Problem when put log to stash"
-			field.Data = resp.Status
-		} else {
-			isSuccess = true
+			_ = glg.Warn("Problem when put log to stash,", er)
 		}
 	}
-
-	if isSuccess {
-		field.Level = INFO
-		field.Message = "Success"
-		field.Data = "Put log to stash scceeded!"
-	}
-	l.printLog(field.Timestamp, field.Level, l.composeOutput(field))
 }
 
 func (l *LoggerEngine) composeOutput(f Fields) string {

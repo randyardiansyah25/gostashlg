@@ -25,11 +25,18 @@ func useDefine() {
 		RemoteAddr: "172.0.0.1:23994",
 		Body:       "Ini contoh body, kalo http bisa aja concate dari header dan body",
 	}
+
+	bErr := struct {
+		Body string
+	}{
+		Body: "ini adalah error",
+	}
 	log, _ := gostashlg.UseDefine(gostashlg.NewTemplate().
-		Add(gostashlg.LOG, "{{.Data.Type}}, FROM:4 {{.Data.RemoteAddr}}, {{.Event}}, {{.Message}}, Data:\n{{.Data.Body}}"),
+		Add(gostashlg.LOG, "{{.Data.Type}}, FROM:4 {{.Data.RemoteAddr}}, {{.Event}}, {{.Message}}, Data:\n{{.Data.Body}}").
+		Add(gostashlg.ERROR, "Data:\n{{.Data.Body}}"),
 	)
 
-	field := gostashlg.NewFields().
+	_ = gostashlg.NewFields().
 		SetIdentifierName("myapp").
 		SetLevel(gostashlg.LOG).
 		SetEvent("Test").
@@ -37,7 +44,17 @@ func useDefine() {
 		SetData(body).
 		Get()
 
-	log.Write(field)
+	//  log.Write(field)
+
+	fieldErr := gostashlg.NewFields().
+		SetIdentifierName("myapp").
+		SetLevel(gostashlg.ERROR).
+		SetEvent("Test error").
+		SetMessage("pesan error").
+		SetData(bErr).
+		Get()
+
+	log.Write(fieldErr)
 }
 
 func useDefault() {
