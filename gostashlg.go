@@ -92,6 +92,10 @@ func (l *LoggerEngine) Write(f Fields) {
 	l.doWrite(f, true)
 }
 
+func (l *LoggerEngine) Reset() {
+	glg.Reset()
+}
+
 func (l *LoggerEngine) WriteOnly(f Fields) {
 	l.doWrite(f, false)
 }
@@ -122,7 +126,8 @@ func (l *LoggerEngine) prepareLogFile() {
 		lSync.Lock()
 		l.LastSuffix = time.Now().Format(FORMAT_YMD)
 		logFl := glg.FileWriter(fmt.Sprintf("log/app_%s.log", l.LastSuffix), 0775)
-		loc, _ := time.LoadLocation("Asia/Jakarta")
+		timeLocation := os.Getenv("logstash.time_location")
+		loc, _ := time.LoadLocation(timeLocation)
 		
 		glg.Get().
 			SetMode(glg.BOTH).
