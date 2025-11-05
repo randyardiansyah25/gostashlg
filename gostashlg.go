@@ -122,7 +122,8 @@ func (l *LoggerEngine) prepareLogFile() {
 		lSync.Lock()
 		l.LastSuffix = time.Now().Format(FORMAT_YMD)
 		logFl := glg.FileWriter(fmt.Sprintf("log/app_%s.log", l.LastSuffix), 0775)
-
+		loc, _ := time.LoadLocation("Asia/Jakarta")
+		
 		glg.Get().
 			SetMode(glg.BOTH).
 			AddLevelWriter(glg.DEBG, logFl).
@@ -134,7 +135,8 @@ func (l *LoggerEngine) prepareLogFile() {
 			AddLevelWriter(glg.WARN, logFl).
 			AddLevelWriter(glg.ERR, logFl).
 			AddLevelWriter(glg.FAIL, logFl).
-			AddLevelWriter(glg.FATAL, logFl)
+			AddLevelWriter(glg.FATAL, logFl).
+			SetTimeLocation(loc)
 
 		lSync.Unlock()
 		return nil, nil
