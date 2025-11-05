@@ -121,7 +121,7 @@ func (l *LoggerEngine) prepareLogFile() {
 	sfGroup.Do("prepare_log_file", func() (interface{}, error) {
 		lSync.Lock()
 		l.LastSuffix = time.Now().Format(FORMAT_YMD)
-		logFl := glg.FileWriter(fmt.Sprintf("log/app_%s.log", l.LastSuffix), 0660)
+		logFl := glg.FileWriter(fmt.Sprintf("log/app_%s.log", l.LastSuffix), 0775)
 
 		glg.Get().
 			SetMode(glg.BOTH).
