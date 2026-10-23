@@ -105,7 +105,8 @@ func (l *LoggerEngine) doWrite(f Fields, putToStash bool) {
 
 func (l *LoggerEngine) observe() {
 	for i := range l.itemChan {
-		go l.exec(i)
+		//	go l.exec(i)
+		l.exec(i)
 	}
 }
 
@@ -113,7 +114,8 @@ func (l *LoggerEngine) exec(item logItem) {
 	message := l.composeOutput(item.Field)
 	l.printLog(item.Field.Timestamp, item.Field.Level, message)
 	if l.isUseStash && item.PushToStash {
-		l.put(item)
+		// l.put(item)
+		go l.put(item)
 	}
 }
 
