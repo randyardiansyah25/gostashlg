@@ -135,3 +135,8 @@ if err != nil {
     return
 }
 ```
+
+Untuk konfigurasi time location saat cetak log, buat environment untuk time location
+```env
+os.Setenv("logstash.time_location", "Asia/Jakarta")
+```

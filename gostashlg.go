@@ -92,6 +92,10 @@ func (l *LoggerEngine) Write(f Fields) {
 	l.doWrite(f, true)
 }
 
+func (l *LoggerEngine) Reset() {
+	glg.Reset()
+}
+
 func (l *LoggerEngine) WriteOnly(f Fields) {
 	l.doWrite(f, false)
 }
@@ -123,8 +127,10 @@ func (l *LoggerEngine) prepareLogFile() {
 	sfGroup.Do("prepare_log_file", func() (interface{}, error) {
 		lSync.Lock()
 		l.LastSuffix = time.Now().Format(FORMAT_YMD)
-		logFl := glg.FileWriter(fmt.Sprintf("log/app_%s.log", l.LastSuffix), 0660)
-
+		logFl := glg.FileWriter(fmt.Sprintf("log/app_%s.log", l.LastSuffix), 0775)
+		timeLocation := os.Getenv("logstash.time_location")
+		loc, _ := time.LoadLocation(timeLocation)
+		
 		glg.Get().
 			SetMode(glg.BOTH).
 			AddLevelWriter(glg.DEBG, logFl).
@@ -136,7 +142,8 @@ func (l *LoggerEngine) prepareLogFile() {
 			AddLevelWriter(glg.WARN, logFl).
 			AddLevelWriter(glg.ERR, logFl).
 			AddLevelWriter(glg.FAIL, logFl).
-			AddLevelWriter(glg.FATAL, logFl)
+			AddLevelWriter(glg.FATAL, logFl).
+			SetTimeLocation(loc)
 
 		lSync.Unlock()
 		return nil, nil
